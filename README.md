@@ -7,7 +7,7 @@ capistrano-composer is a [Capistrano](https://github.com/capistrano/capistrano) 
 1. Install the Gem
 
 ```bash
-gem install capistrano-composer`
+gem install capistrano-composer
 ```
 
 Or if you're using Bundler, add it to your `Gemfile`:
