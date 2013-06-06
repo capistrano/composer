@@ -1,12 +1,14 @@
 # capistrano-composer
 
-capistrano-composer is a [capistrano](https://github.com/capistrano/capistrano) extension that will let you use [Composer](http://getcomposer.org/) to manage your dependencies during your deploy process.
+capistrano-composer is a [Capistrano](https://github.com/capistrano/capistrano) extension that will let you use [Composer](http://getcomposer.org/) to manage your dependencies during your deploy process.
 
 ## Installation
 
 1. Install the Gem
 
-    gem install capistrano-composer
+```bash
+gem install capistrano-composer`
+```
 
 Or if you're using Bundler, add it to your `Gemfile`:
 
