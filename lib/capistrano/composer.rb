@@ -2,6 +2,8 @@ Capistrano::Configuration.instance(true).load do
   set :composer_path,     '/usr/local/bin/composer'
   set :composer_options,  '--no-scripts --no-dev --verbose --prefer-dist --optimize-autoloader --no-progress'
 
+  depend :remote, :command, composer_path
+
   namespace :composer do
     desc 'Installs the project dependencies from the composer.lock file if present, or falls back on the composer.json.'
     task :install, :roles => :app, :except => { :no_release => true } do

@@ -36,6 +36,10 @@ after 'deploy:finalize_update', 'composer:install'
 * `composer:update`: Updates your dependencies to the latest version according to composer.json, and updates the composer.lock file.
 * `composer:dump_autoload`: Dumps an optimized autoloader.
 
+### Dependencies
+
+This extension also adds `composer_path` as a Capistrano dependency. Meaning when you run `cap deploy:check`, it will make sure the `composer` command exists.
+
 ## Configuration
 
 * `composer_path`: Path to the Composer bin (defaults to `/usr/local/bin/composer`)
