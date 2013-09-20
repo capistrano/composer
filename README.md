@@ -13,7 +13,7 @@ gem install capistrano-composer
 Or if you're using Bundler, add it to your `Gemfile`:
 
 ```ruby
-gem 'capistrano-composer', github: 'swalkinshaw/composer'
+gem 'capistrano-composer', github: 'roots/capistrano-composer'
 ```
 
 2. Add to `Capfile` or `config/deploy.rb`:
