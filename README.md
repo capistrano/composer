@@ -1,47 +1,46 @@
-# capistrano-composer
+# Capistrano::Composer
 
-capistrano-composer is a [Capistrano](https://github.com/capistrano/capistrano) extension that will let you use [Composer](http://getcomposer.org/) to manage your dependencies during your deploy process.
+Composer for support for Capistrano 3.x
 
 ## Installation
 
-1. Install the Gem
-
-```bash
-gem install capistrano-composer
-```
-
-Or if you're using Bundler, add it to your `Gemfile`:
+Add this line to your application's Gemfile:
 
 ```ruby
-gem 'capistrano-composer', github: 'swalkinshaw/composer'
+gem 'capistrano-composer'
+gem 'capistrano', github: 'capistrano/capistrano', branch: 'v3'
 ```
 
-2. Add to `Capfile` or `config/deploy.rb`:
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install capistrano-composer
+
+## Usage
+
+Require in `Capfile` to use the default task:
 
 ```ruby
 require 'capistrano/composer'
 ```
 
-## Usage
+The task will run before `deploy:updated` as part of Capistrano's default deploy,
+or can be run in isolation with `cap production composer:install`
 
-Add the task to your `deploy.rb`:
+Configurable options, shown here with defaults:
 
 ```ruby
-after 'deploy:finalize_update', 'composer:install'
+set :composer_flags, '--production --silent'
+set :composer_roles, :all
 ```
 
-### Tasks
+## Contributing
 
-* `composer:install`: Installs the project dependencies from the composer.lock file if present, or falls back on the composer.json.
-* `composer:update`: Updates your dependencies to the latest version according to composer.json, and updates the composer.lock file.
-* `composer:dump_autoload`: Dumps an optimized autoloader.
-
-### Dependencies
-
-This extension also adds `composer_path` as a Capistrano dependency. Meaning when you run `cap deploy:check`, it will make sure the `composer` command exists.
-
-## Configuration
-
-* `composer_path`: Path to the Composer bin (defaults to `/usr/local/bin/composer`)
-* `composer_options`: Options passed to composer command (defaults to `--no-scripts --no-dev --verbose --prefer-dist --optimize-autoloader --no-progress`)
-
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
