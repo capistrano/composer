@@ -7,8 +7,8 @@ Composer for support for Capistrano 3.x
 Add this line to your application's Gemfile:
 
 ```ruby
+gem 'capistrano', '~> 3.0.0'
 gem 'capistrano-composer'
-gem 'capistrano', github: 'capistrano/capistrano', branch: 'v3'
 ```
 
 And then execute:
