@@ -11,7 +11,9 @@ namespace :composer do
   task :install do
     on roles fetch(:composer_roles) do
       within release_path do
-        execute :composer, fetch(:composer_flags), :install
+        with fetch(:composer_env) do
+          execute :composer, fetch(:composer_flags), :install
+        end
       end
     end
   end
@@ -23,5 +25,6 @@ namespace :load do
   task :defaults do
     set :composer_flags, '--no-dev --no-scripts --quiet --optimize-autoloader'
     set :composer_roles, :all
+    set :composer_env, { }
   end
 end
