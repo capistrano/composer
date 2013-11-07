@@ -11,7 +11,7 @@ namespace :composer do
   task :install do
     on roles fetch(:composer_roles) do
       within release_path do
-        execute :composer, :install, fetch(:composer_flags)
+        execute :composer, fetch(:composer_flags), :install
       end
     end
   end
