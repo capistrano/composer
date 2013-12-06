@@ -1,6 +1,6 @@
 # Capistrano::Composer
 
-Composer for support for Capistrano 3.x
+Composer support for Capistrano 3.x
 
 ## Installation
 
