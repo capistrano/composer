@@ -33,7 +33,7 @@ namespace :composer do
 
         You can override any of the defaults by setting the variables shown below.
 
-          set :composer_flags, '--no-dev --no-scripts --quiet --optimize-autoloader'
+          set :composer_install_flags, '--no-dev --no-scripts --quiet --optimize-autoloader'
           set :composer_roles, :all
     DESC
   task :install do
