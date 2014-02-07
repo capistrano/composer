@@ -54,6 +54,7 @@ set :composer_install_flags, '--no-dev --no-scripts --quiet --optimize-autoloade
 set :composer_roles, :all
 set :composer_dump_autoload_flags, '--optimize'
 set :composer_download_url, "https://getcomposer.org/installer"
+set :composer_version, '1.0.0-alpha8' #(default: not set)
 ```
 
 ### Installing composer as part of a deployment

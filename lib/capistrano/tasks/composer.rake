@@ -12,7 +12,9 @@ namespace :composer do
     on roles fetch(:composer_roles) do
       within shared_path do
         unless test "[", "-e", "composer.phar", "]"
-          execute :curl, "-s", fetch(:composer_download_url), "|", :php
+          composer_version = fetch(:composer_version, nil)
+          composer_version_option = composer_version ? "-- --version=#{composer_version}" : ""
+          execute :curl, "-s", fetch(:composer_download_url), "|", :php, composer_version_option
         end
       end
     end
@@ -44,9 +46,15 @@ namespace :composer do
     invoke "composer:run", :dumpautoload, fetch(:composer_dump_autoload_flags)
   end
 
-  desc "Run the self-update command for composer.phar"
+  desc <<-DESC
+        Run the self-update command for composer.phar
+
+        You can update to a specific release by setting the variables shown below.
+
+          set :composer_version, '1.0.0-alpha8'
+    DESC
   task :self_update do
-    invoke "composer:run", :selfupdate
+    invoke "composer:run", :selfupdate, fetch(:composer_version, '')
   end
 
   before 'deploy:updated', 'composer:install'
