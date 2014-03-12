@@ -7,7 +7,7 @@ Composer support for Capistrano 3.x
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'capistrano', '~> 3.0.0'
+gem 'capistrano', '~> 3.1.0'
 gem 'capistrano-composer'
 ```
 
@@ -50,7 +50,7 @@ By default it is assumed that you have the composer executable installed and in 
 Configurable options, shown here with defaults:
 
 ```ruby
-set :composer_install_flags, '--no-dev --no-scripts --quiet --optimize-autoloader'
+set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader'
 set :composer_roles, :all
 set :composer_dump_autoload_flags, '--optimize'
 set :composer_download_url, "https://getcomposer.org/installer"
