@@ -24,7 +24,7 @@ namespace :composer do
     args.with_defaults(:command => :list)
     on roles fetch(:composer_roles) do
       within release_path do
-        execute :composer, args[:command], *args.extras
+        execute :php, shared_path + 'composer.phar', args[:command], *args.extras
       end
     end
   end
