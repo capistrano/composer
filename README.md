@@ -63,7 +63,7 @@ Add the following to `deploy.rb` to manage the installation of composer during
 deployment (composer.phar is install in the shared path).
 
 ```ruby
-SSHKit.config.command_map[:composer] = "#{shared_path.join("composer.phar")}"
+SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
 
 namespace :deploy do
   before :starting, 'composer:install_executable'
