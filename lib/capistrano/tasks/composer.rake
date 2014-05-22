@@ -9,7 +9,7 @@ namespace :composer do
       end
   DESC
   task :install_executable do
-    on roles fetch(:composer_roles) do
+    on release_roles(fetch(:composer_roles)) do
       within shared_path do
         unless test "[", "-e", "composer.phar", "]"
           composer_version = fetch(:composer_version, nil)
@@ -22,7 +22,7 @@ namespace :composer do
 
   task :run, :command do |t, args|
     args.with_defaults(:command => :list)
-    on roles fetch(:composer_roles) do
+    on release_roles(fetch(:composer_roles)) do
       within release_path do
         execute :composer, args[:command], *args.extras
       end
