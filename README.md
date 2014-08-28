@@ -89,6 +89,18 @@ task :my_custom_composer_task do
 end
 ```
 
+### Removing the default install task
+
+If you do not want to run the default install task on `deploy:updated`, (for 
+example, if you do not have root level dependencies stored in a `composer.json`
+you can remove it by adding the following line to your `config/deploy.rb`:
+
+```ruby
+Rake::Task['deploy:updated'].prerequisites.delete('composer:install')
+```
+
+You can then call `composer.install` task within your own defined tasks, at an 
+appropriate juncture.
 
 ## Contributing
 
