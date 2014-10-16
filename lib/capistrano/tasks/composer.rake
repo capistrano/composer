@@ -20,6 +20,20 @@ namespace :composer do
     end
   end
 
+  desc <<-DESC
+        Speeds up the time of a deploy by copying
+        vendor directory from previous release.
+    DESC
+  task :copy_vendors do
+    on release_roles(fetch(:composer_roles)) do
+      vendor_path = current_path.join('vendor')
+
+      if test "[ -d #{vendor_path} ] || [ -h #{vendor_path} ]"
+        execute :cp, '-a', vendor_path, release_path.join('vendor')
+      end
+    end
+  end
+
   task :run, :command do |t, args|
     args.with_defaults(:command => :list)
     on release_roles(fetch(:composer_roles)) do
@@ -56,6 +70,8 @@ namespace :composer do
   task :self_update do
     invoke "composer:run", :selfupdate, fetch(:composer_version, '')
   end
+
+  before :install, :copy_vendors
 
   before 'deploy:updated', 'composer:install'
 end

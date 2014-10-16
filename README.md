@@ -27,15 +27,19 @@ Require the module in your `Capfile`:
 require 'capistrano/composer'
 ```
 
-`capistrano/composer` comes with 5 tasks:
+`capistrano/composer` comes with 6 tasks:
 
 * composer:install
 * composer:install_executable
+* composer:copy_vendors
 * composer:dump_autoload
 * composer:self_update
 * composer:run
 
-The `composer:install` task will run before deploy:updated as part of
+The `composer:copy_vendors` task will run before `composer:install` in order to
+copy vendor directory from previous release. This allows to speed up a deploy.
+
+The `composer:install` task will run before `deploy:updated` as part of
 Capistrano's default deploy, or can be run in isolation with:
 
 ```bash
