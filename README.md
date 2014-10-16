@@ -66,7 +66,7 @@ deployment (composer.phar is install in the shared path).
 SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
 
 namespace :deploy do
-  before :starting, 'composer:install_executable'
+  after :starting, 'composer:install_executable'
 end
 ```
 
