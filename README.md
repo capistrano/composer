@@ -99,8 +99,21 @@ you can remove it by adding the following line to your `config/deploy.rb`:
 Rake::Task['deploy:updated'].prerequisites.delete('composer:install')
 ```
 
-You can then call `composer.install` task within your own defined tasks, at an 
+You can then call `composer:install` task within your own defined tasks, at an 
 appropriate juncture.
+
+### Calling `composer:install` in a specified directory
+
+To run the `install` task in a specified directory, pass the directory you would like to run in to install as an argument. For example:
+
+```ruby
+task :install_in_directory do
+    custom_path = release_path + "/your/directory/path"
+    invoke "composer:install", custom_path
+end
+```
+
+**Note:** if you *only* want to run composer install in a subdirectory, you will have to disable the default task as noted [above](#removing-the-default-install-task).
 
 ## Contributing
 

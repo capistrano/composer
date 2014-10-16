@@ -20,10 +20,11 @@ namespace :composer do
     end
   end
 
-  task :run, :command do |t, args|
-    args.with_defaults(:command => :list)
+  task :run, :command, :execution_path do |t, args|
+    args.with_defaults( :command => :list,
+                        :execution_path => release_path )
     on release_roles(fetch(:composer_roles)) do
-      within release_path do
+      within args[:execution_path] do
         execute :composer, args[:command], *args.extras
       end
     end
@@ -38,8 +39,9 @@ namespace :composer do
           set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader'
           set :composer_roles, :all
     DESC
-  task :install do
-    invoke "composer:run", :install, fetch(:composer_install_flags)
+  task :install, :execution_path do |t, args|
+    args.with_defaults(:execution_path => release_path)
+    invoke "composer:run", :install, args[:execution_path], fetch(:composer_install_flags)
   end
 
   task :dump_autoload do
