@@ -52,6 +52,7 @@ Configurable options, shown here with defaults:
 ```ruby
 set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader'
 set :composer_roles, :all
+set :composer_working_dir, -> { fetch(:release_path) }
 set :composer_dump_autoload_flags, '--optimize'
 set :composer_download_url, "https://getcomposer.org/installer"
 set :composer_version, '1.0.0-alpha8' #(default: not set)
