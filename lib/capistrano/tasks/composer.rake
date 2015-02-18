@@ -58,6 +58,7 @@ namespace :composer do
   end
 
   before 'deploy:updated', 'composer:install'
+  before 'deploy:reverted', 'composer:install'
 end
 
 namespace :load do
