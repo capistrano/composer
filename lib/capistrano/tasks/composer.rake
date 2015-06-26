@@ -20,6 +20,26 @@ namespace :composer do
     end
   end
 
+  desc <<-DESC
+    Copies the vendor dir from the previous release. This speeds up deployment
+    by not re-downloading packages that are available in the previous release.
+    `composer install` will ensure that correct versions are being used.
+    Note that if a package has been removed from composer.json since the previous
+    release, using this task will cause it to be preserved in vendor/
+
+    To use, add this to your deploy.rb:
+      before "composer:install", "composer:copy_packages"
+  DESC
+  task :copy_packages do
+    on release_roles(fetch(:composer_roles)) do
+      # Only attempt to copy if there are previous releases (i.e. not on cold start)
+      releases = capture("ls #{File.join(fetch(:deploy_to), 'releases')}")
+      if previous_release = releases.split(/[\t\n]/).reject{|r| r == release_timestamp}.sort.last
+        execute "vdir=#{current_path}/vendor; if [ -d $vdir ] || [ -h $vdir ]; then cp -a $vdir #{release_path}/vendor; fi"
+      end
+    end
+  end
+
   task :run, :command do |t, args|
     args.with_defaults(:command => :list)
     on release_roles(fetch(:composer_roles)) do
