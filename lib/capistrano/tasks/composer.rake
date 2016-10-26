@@ -58,11 +58,11 @@ namespace :composer do
           set :composer_roles, :all
     DESC
   task :install do
-    invoke "composer:run", :install, fetch(:composer_install_flags)
+    invoke 'composer:run', :install, fetch(:composer_install_flags)
   end
 
   task :dump_autoload do
-    invoke "composer:run", :dumpautoload, fetch(:composer_dump_autoload_flags)
+    invoke 'composer:run', :dumpautoload, fetch(:composer_dump_autoload_flags)
   end
 
   desc <<-DESC
@@ -73,7 +73,7 @@ namespace :composer do
           set :composer_version, '1.0.0-alpha8'
     DESC
   task :self_update do
-    invoke "composer:run", :selfupdate, fetch(:composer_version, '')
+    invoke 'composer:run', :selfupdate, fetch(:composer_version, '')
   end
 
   before 'deploy:updated', 'composer:install'
@@ -93,6 +93,6 @@ namespace :load do
     set :composer_roles, :all
     set :composer_working_dir, -> { fetch(:release_path) }
     set :composer_dump_autoload_flags, '--optimize'
-    set :composer_download_url, "https://getcomposer.org/installer"
+    set :composer_download_url, 'https://getcomposer.org/installer'
   end
 end

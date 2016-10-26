@@ -42,7 +42,7 @@ Capistrano's default deploy, or can be run in isolation with:
 $ cap production composer:install
 ```
 
-By default it is assumed that you have the composer executable installed and in your
+By default it is assumed that you have the Composer executable installed and in your
 `$PATH` on all target hosts.
 
 ### Configuration
@@ -54,33 +54,33 @@ set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autol
 set :composer_roles, :all
 set :composer_working_dir, -> { fetch(:release_path) }
 set :composer_dump_autoload_flags, '--optimize'
-set :composer_download_url, "https://getcomposer.org/installer"
-set :composer_version, '1.0.0-alpha8' #(default: not set)
+set :composer_download_url, 'https://getcomposer.org/installer'
+set :composer_version, '1.0.0-alpha8' # (default: not set)
 set :composer_bin, 'bin/composer.phar' # (default: not set)
 set :composer_php, 'php5' # (default: not set)
 ```
 
-### Installing composer as part of a deployment
+### Installing Composer as part of a deployment
 
 To install Composer as part of the deployment, set `:composer_bin` to `:local`.
 This ensures installation of a local `composer.phar` in the shared path.
 
-### Accessing composer commands directly
+### Accessing Composer commands directly
 
 This library also provides a `composer:run` task which allows access to any
-composer command.
+Composer command.
 
 From the command line you can run
 
 ```bash
-$ cap production composer:run['status','--profile']
+$ cap production composer:run[status,--profile]
 ```
 
-Or from within a rake task using capistrano's `invoke`
+Or from within a rake task using Capistrano's `invoke`
 
 ```ruby
 task :my_custom_composer_task do
-  invoke "composer:run", :update, "--dev --prefer-dist"
+  invoke 'composer:run', :update, '--dev --prefer-dist'
 end
 ```
 
