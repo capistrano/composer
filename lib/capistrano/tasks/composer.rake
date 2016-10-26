@@ -49,14 +49,14 @@ namespace :composer do
   end
 
   desc <<-DESC
-        Install the project dependencies via Composer. By default, require-dev \
-        dependencies will not be installed.
+    Install the project dependencies via Composer. By default, require-dev \
+    dependencies will not be installed.
 
-        You can override any of the defaults by setting the variables shown below.
+    You can override any of the defaults by setting the variables shown below.
 
-          set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader'
-          set :composer_roles, :all
-    DESC
+      set :composer_install_flags, '--no-dev --no-interaction --quiet --optimize-autoloader'
+      set :composer_roles, :all
+  DESC
   task :install do
     invoke 'composer:run', :install, fetch(:composer_install_flags)
   end
@@ -66,12 +66,12 @@ namespace :composer do
   end
 
   desc <<-DESC
-        Run the self-update command for composer.phar
+    Run the self-update command for composer.phar
 
-        You can update to a specific release by setting the variables shown below.
+    You can update to a specific release by setting the variables shown below.
 
-          set :composer_version, '1.0.0-alpha8'
-    DESC
+      set :composer_version, '1.0.0-alpha8'
+  DESC
   task :self_update do
     invoke 'composer:run', :selfupdate, fetch(:composer_version, '')
   end
