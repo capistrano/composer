@@ -1,20 +1,39 @@
 namespace :composer do
-  desc <<-DESC
-    Installs composer.phar to the shared directory
-    In order to use the .phar file, the composer command needs to be mapped:
-      SSHKit.config.command_map[:composer] = "\#{shared_path.join("composer.phar")}"
-    This is best used after deploy:starting:
-      namespace :deploy do
-        after :starting, 'composer:install_executable'
+  task :validate do
+    on release_roles(fetch(:composer_roles)) do
+      composer_php = fetch(:composer_php, capture(:which, 'php'))
+      if composer_php.nil?
+        error 'composer: php not found and composer_php is not set'
+        exit 1
       end
+
+      composer_bin = fetch(:composer_bin, capture(:which, 'composer'))
+      if composer_bin.nil?
+        error 'composer: composer not found and composer_bin is not set'
+        exit 1
+      end
+
+      if composer_bin === :local
+        composer_bin = shared_path.join('composer.phar')
+      end
+
+      SSHKit.config.command_map[:composer] = "#{composer_php} #{composer_bin}"
+    end
+  end
+
+  desc <<-DESC
+    Installs composer.phar to the shared directory.
+
+    When `:composer_bin` is set to `:local`, this task is automatically invoked.
   DESC
   task :install_executable do
     on release_roles(fetch(:composer_roles)) do
       within shared_path do
-        unless test "[", "-e", "composer.phar", "]"
+        unless test "[ -f #{shared_path.join('composer.phar')} ]"
           composer_version = fetch(:composer_version, nil)
-          composer_version_option = composer_version ? "-- --version=#{composer_version}" : ""
-          execute :curl, "-s", fetch(:composer_download_url), "|", :php, composer_version_option
+          composer_version_option = composer_version ? "-- --version=#{composer_version}" : ''
+          execute :curl, '-s', fetch(:composer_download_url),
+            '|', fetch(:composer_php, 'php'), composer_version_option
         end
       end
     end
@@ -59,6 +78,13 @@ namespace :composer do
 
   before 'deploy:updated', 'composer:install'
   before 'deploy:reverted', 'composer:install'
+end
+
+Capistrano::DSL.stages.each do |stage|
+  after stage, 'composer:validate'
+  after stage, 'composer:auto_install_executable' do
+    invoke 'composer:install_executable' if fetch(:composer_bin) === :local
+  end
 end
 
 namespace :load do

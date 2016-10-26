@@ -56,20 +56,14 @@ set :composer_working_dir, -> { fetch(:release_path) }
 set :composer_dump_autoload_flags, '--optimize'
 set :composer_download_url, "https://getcomposer.org/installer"
 set :composer_version, '1.0.0-alpha8' #(default: not set)
+set :composer_bin, 'bin/composer.phar' # (default: not set)
+set :composer_php, 'php5' # (default: not set)
 ```
 
 ### Installing composer as part of a deployment
 
-Add the following to `deploy.rb` to manage the installation of composer during
-deployment (composer.phar is install in the shared path).
-
-```ruby
-SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
-
-namespace :deploy do
-  after :starting, 'composer:install_executable'
-end
-```
+To install Composer as part of the deployment, set `:composer_bin` to `:local`.
+This ensures installation of a local `composer.phar` in the shared path.
 
 ### Accessing composer commands directly
 
