@@ -11,10 +11,15 @@ namespace :composer do
   task :install_executable do
     on release_roles(fetch(:composer_roles)) do
       within shared_path do
-        unless test "[", "-e", "composer.phar", "]"
-          composer_version = fetch(:composer_version, nil)
-          composer_version_option = composer_version ? "-- --version=#{composer_version}" : ""
+        composer_version = fetch(:composer_version, nil)
+        composer_version_option = composer_version ? "-- --version=#{composer_version}" : ""
+        if test "[", "!", "-e", "composer.phar", "]"
           execute :curl, "-s", fetch(:composer_download_url), "|", :php, composer_version_option
+        elsif composer_version
+          current_version = capture(:php, "composer.phar", "-V", strip: false)
+          unless current_version.include? "Composer version #{composer_version} "
+            execute :curl, "-s", fetch(:composer_download_url), "|", :php, composer_version_option
+          end
         end
       end
     end
