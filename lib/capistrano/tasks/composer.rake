@@ -25,7 +25,7 @@ namespace :composer do
     end
   end
 
-  task :run, :command do |t, args|
+  task :run, :command, :extras do |t, args|
     args.with_defaults(:command => :list)
     on release_roles(fetch(:composer_roles)) do
       within fetch(:composer_working_dir) do
