@@ -47,6 +47,21 @@ namespace :composer do
     invoke "composer:run", :install, fetch(:composer_install_flags)
   end
 
+  task :copy_from_previous_release do
+    next unless fetch(:composer_copy_previous_vendors)
+    on roles fetch(:composer_roles) do
+      last_release = capture(:ls, '-xr', releases_path).split.fetch(1, nil)
+      next unless last_release
+      last_release_path = releases_path.join(last_release)
+
+      if test "[ -d #{last_release_path.join('vendor')} ]"
+        within last_release_path do
+          execute :cp, "-R", "vendor", release_path.join('vendor')
+        end
+      end
+    end
+  end
+
   task :dump_autoload do
     invoke "composer:run", :dumpautoload, fetch(:composer_dump_autoload_flags)
   end
@@ -62,6 +77,7 @@ namespace :composer do
     invoke "composer:run", :selfupdate, fetch(:composer_version, '')
   end
 
+  before 'deploy:updated', 'composer:copy_from_previous_release'
   before 'deploy:updated', 'composer:install'
   before 'deploy:reverted', 'composer:install'
 end
@@ -73,5 +89,6 @@ namespace :load do
     set :composer_working_dir, -> { fetch(:release_path) }
     set :composer_dump_autoload_flags, '--optimize'
     set :composer_download_url, "https://getcomposer.org/installer"
+    set :composer_copy_previous_vendors, true
   end
 end
