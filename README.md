@@ -61,7 +61,7 @@ set :composer_version, '1.0.0-alpha8' #(default: not set)
 ### Installing composer as part of a deployment
 
 Add the following to `deploy.rb` to manage the installation of composer during
-deployment (composer.phar is install in the shared path).
+deployment (composer.phar is installed in the shared path).
 
 ```ruby
 SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}"
