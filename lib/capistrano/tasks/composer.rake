@@ -70,7 +70,7 @@ namespace :load do
   task :defaults do
     set :composer_install_flags, '--no-dev --prefer-dist --no-interaction --quiet --optimize-autoloader'
     set :composer_roles, :all
-    set :composer_working_dir, -> { fetch(:release_path) }
+    set :composer_working_dir, -> { release_path }
     set :composer_dump_autoload_flags, '--optimize'
     set :composer_download_url, "https://getcomposer.org/installer"
   end
